@@ -88,7 +88,7 @@ G2L["c"]["Image"] = [[rbxassetid://12817467194]];
 G2L["c"]["Size"] = UDim2.new(1, 152, 1, 152);
 G2L["c"]["BackgroundTransparency"] = 1;
 G2L["c"]["Name"] = [[FrameShadow]];
-G2L["c"]["Position"] = UDim2.new(0.5, 0, 0.5, -1);
+G2L["c"]["Position"] = UDim2.new(0.5, 0, 0.51149, -1);
 
 local function C_3()
 local script = G2L["3"];
@@ -157,92 +157,135 @@ end;
 task.spawn(C_4);
 local function C_6()
 local script = G2L["6"];
-	local player = game.Players.LocalPlayer
+	local Players = game:GetService("Players")
 	local TweenService = game:GetService("TweenService")
-	local stagesFolder = workspace:WaitForChild("BoatStages"):WaitForChild("NormalStages")
+	local player = Players.LocalPlayer
+	
+	local constantY = 65
+	local preChestPos = Vector3.new(-49, constantY, 8640)
 	local darknessPartName = "DarknessPart"
-	local finalChestPath = stagesFolder.TheEnd:WaitForChild("GoldenChest")
-	local tweenTime = 2.5
+	local tweenTime = 1.65
 	local tweenStyle = Enum.EasingStyle.Quad
-	local tweenDirection = Enum.EasingDirection.Out
+	local tweenDirection = Enum.EasingDirection.InOut
+	
 	local screenGui = player:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
 	local toggleButton = screenGui:WaitForChild("Frame"):WaitForChild("TextButton")
+	
 	local enabled = false
-	local activeThread
-	local preChestPos = Vector3.new(-49, 53, 8640)
+	local activeThread = nil
+	
+	local function findBoatStages()
+		if workspace:FindFirstChild("BoatStages") then
+			return workspace:FindFirstChild("BoatStages")
+		end
+		for _, v in pairs(workspace:GetChildren()) do
+			if v:IsA("Folder") and v.Name:lower():find("boat") then
+				return v
+			end
+		end
+		return nil
+	end
+	
+	local boatRoot = findBoatStages()
+	local stagesFolder = boatRoot and (boatRoot:FindFirstChild("NormalStages") or boatRoot:FindFirstChildWhichIsA("Folder") or boatRoot) or nil
+	
+	local function findTheEnd()
+		if stagesFolder and stagesFolder:FindFirstChild("TheEnd") then
+			return stagesFolder.TheEnd
+		elseif boatRoot and boatRoot:FindFirstChild("TheEnd") then
+			return boatRoot.TheEnd
+		end
+		return nil
+	end
+	
+	local theEnd = findTheEnd()
+	local finalChest = nil
+	if theEnd then
+		finalChest = theEnd:FindFirstChild("GoldenChest") or theEnd:FindFirstChildWhichIsA("BasePart")
+		if finalChest and finalChest:IsA("Model") and not finalChest.PrimaryPart then
+			finalChest.PrimaryPart = finalChest:FindFirstChildWhichIsA("BasePart")
+		end
+	end
+	
+	local function safeTweenTo(root, targetCFrame)
+		if not (root and root.Parent) then return end
+		pcall(function()
+			local tweenInfo = TweenInfo.new(tweenTime, tweenStyle, tweenDirection)
+			local tween = TweenService:Create(root, tweenInfo, {CFrame = targetCFrame})
+			tween:Play()
+			tween.Completed:Wait()
+		end)
+	end
 	
 	local function extractStageNumber(name)
 		return tonumber(string.match(name, "%d+")) or math.huge
 	end
 	
-	local function tweenTo(target, root)
-		local targetCFrame
-		if typeof(target) == "Vector3" then
-			targetCFrame = CFrame.new(target)
-		elseif target:IsA("Model") then
-			if not target.PrimaryPart then
-				target.PrimaryPart = target:FindFirstChildWhichIsA("BasePart")
-			end
-			targetCFrame = target.PrimaryPart.CFrame
-		else
-			targetCFrame = target.CFrame
-		end
-		local tweenInfo = TweenInfo.new(tweenTime, tweenStyle, tweenDirection)
-		local goal = {CFrame = targetCFrame + Vector3.new(0, 4, 0)}
-		local tween = TweenService:Create(root, tweenInfo, goal)
-		tween:Play()
-		tween.Completed:Wait()
-	end
-	
 	local function getStageList()
-		local stageList = {}
-		for _, stage in pairs(stagesFolder:GetChildren()) do
-			if stage:IsA("Model") and stage.Name ~= "TheEnd" then
-				table.insert(stageList, stage)
+		local list = {}
+		if stagesFolder then
+			for _, child in pairs(stagesFolder:GetChildren()) do
+				if child:IsA("Model") and child.Name ~= "TheEnd" then
+					table.insert(list, child)
+				end
 			end
+			table.sort(list, function(a, b)
+				return extractStageNumber(a.Name) < extractStageNumber(b.Name)
+			end)
 		end
-		table.sort(stageList, function(a, b)
-			local aNum, bNum = extractStageNumber(a.Name), extractStageNumber(b.Name)
-			if aNum ~= bNum then
-				return aNum < bNum
-			else
-				return a.Name < b.Name
-			end
-		end)
-		return stageList
+		return list
 	end
 	
 	local function runTweenSequence(character)
-		local root = character:WaitForChild("HumanoidRootPart")
+		repeat task.wait() until character and character.Parent and character:FindFirstChild("HumanoidRootPart")
+		local root = character:FindFirstChild("HumanoidRootPart")
+		if not (root and root:IsA("BasePart")) then return end
+	
 		for _, stage in ipairs(getStageList()) do
 			if not enabled then return end
 			local darkPart = stage:FindFirstChild(darknessPartName, true)
-			if darkPart then
-				tweenTo(darkPart, root)
+			if darkPart and darkPart:IsA("BasePart") then
+				local pos = Vector3.new(darkPart.Position.X, constantY, darkPart.Position.Z)
+				safeTweenTo(root, CFrame.new(pos))
 			end
 		end
+	
 		if not enabled then return end
-		tweenTo(preChestPos, root)
+		safeTweenTo(root, CFrame.new(preChestPos))
+	
 		if not enabled then return end
-		tweenTo(finalChestPath, root)
+		if finalChest then
+			local chestCFrame
+			if finalChest:IsA("BasePart") then
+				chestCFrame = finalChest.CFrame
+			elseif finalChest:IsA("Model") and finalChest.PrimaryPart then
+				chestCFrame = finalChest.PrimaryPart.CFrame
+			end
+			if chestCFrame then
+				safeTweenTo(root, chestCFrame + Vector3.new(0, 5, 0))
+			end
+		end
 	end
 	
 	local function handleCharacter(character)
 		if activeThread then task.cancel(activeThread) end
-		local humanoid = character:WaitForChild("Humanoid")
 		activeThread = task.spawn(function()
-			while enabled and humanoid.Health > 0 do
+			while enabled and character and character.Parent do
 				runTweenSequence(character)
-				humanoid.Died:Wait()
+				local humanoid = character:FindFirstChild("Humanoid")
+				if humanoid then
+					humanoid.Died:Wait()
+				else
+					break
+				end
 				task.wait(1)
-				if not enabled then break end
 			end
 		end)
 	end
 	
-	player.CharacterAdded:Connect(function(character)
-		task.wait(1)
-		if enabled then handleCharacter(character) end
+	player.CharacterAdded:Connect(function(char)
+		task.wait(0.5)
+		if enabled then handleCharacter(char) end
 	end)
 	
 	toggleButton.MouseButton1Click:Connect(function()
