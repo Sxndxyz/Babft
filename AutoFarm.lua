@@ -167,7 +167,7 @@ local script = G2L["6"];
 	local constantY = 65
 	local preChestPos = Vector3.new(-49, constantY, 8640)
 	local darknessPartName = "DarknessPart"
-	local tweenTime = 1.5
+	local tweenTime = 1.85
 	local tweenStyle = Enum.EasingStyle.Quad
 	local tweenDirection = Enum.EasingDirection.InOut
 	
