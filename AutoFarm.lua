@@ -167,7 +167,7 @@ local script = G2L["6"];
 	local constantY = 65
 	local preChestPos = Vector3.new(-49, constantY, 8640)
 	local darknessPartName = "DarknessPart"
-	local tweenTime = 1.85
+	local tweenTime = 2.5
 	local tweenStyle = Enum.EasingStyle.Quad
 	local tweenDirection = Enum.EasingDirection.InOut
 	
@@ -177,9 +177,7 @@ local script = G2L["6"];
 	local function findBoatStages()
 		if workspace:FindFirstChild("BoatStages") then return workspace.BoatStages end
 		for _, v in pairs(workspace:GetChildren()) do
-			if v:IsA("Folder") and v.Name:lower():find("boat") then
-				return v
-			end
+			if v:IsA("Folder") and v.Name:lower():find("boat") then return v end
 		end
 		return nil
 	end
@@ -229,21 +227,11 @@ local script = G2L["6"];
 		dummy.CanCollide = false
 		dummy.CFrame = root.CFrame
 		dummy.Parent = workspace
-	
-		local tweenInfo = TweenInfo.new(tweenTime, tweenStyle, tweenDirection)
-		local tween = TweenService:Create(dummy, tweenInfo, {CFrame = targetCFrame})
+		local tween = TweenService:Create(dummy, TweenInfo.new(tweenTime, tweenStyle, tweenDirection), {CFrame = targetCFrame})
 		tween:Play()
-	
-		local conn
-		conn = RunService.Heartbeat:Connect(function()
-			if root.Parent then
-				root.CFrame = dummy.CFrame
-			else
-				conn:Disconnect()
-				dummy:Destroy()
-			end
+		local conn = RunService.Heartbeat:Connect(function()
+			if root.Parent then root.CFrame = dummy.CFrame else conn:Disconnect(); dummy:Destroy() end
 		end)
-	
 		tween.Completed:Wait()
 		conn:Disconnect()
 		dummy:Destroy()
@@ -253,21 +241,15 @@ local script = G2L["6"];
 		repeat task.wait() until character and character.Parent and character:FindFirstChild("HumanoidRootPart")
 		local root = character:FindFirstChild("HumanoidRootPart")
 		if not root then return end
-	
-		while isTweening and root.Parent do
-			for _, stage in ipairs(getStageList()) do
-				if not isTweening then return end
-				local darkPart = stage:FindFirstChild(darknessPartName, true)
-				if darkPart then
-					local pos = Vector3.new(darkPart.Position.X, constantY, darkPart.Position.Z)
-					safeTweenToDummy(root, CFrame.new(pos))
-				end
+		for _, stage in ipairs(getStageList()) do
+			local darkPart = stage:FindFirstChild(darknessPartName, true)
+			if darkPart then
+				safeTweenToDummy(root, CFrame.new(darkPart.Position.X, constantY, darkPart.Position.Z))
 			end
-			if not isTweening then return end
-			safeTweenToDummy(root, CFrame.new(preChestPos))
-			if finalChest and finalChest.PrimaryPart and isTweening then
-				safeTweenToDummy(root, finalChest.PrimaryPart.CFrame + Vector3.new(0,5,0))
-			end
+		end
+		safeTweenToDummy(root, CFrame.new(preChestPos))
+		if finalChest and finalChest.PrimaryPart then
+			safeTweenToDummy(root, finalChest.PrimaryPart.CFrame + Vector3.new(0,5,0))
 		end
 	end
 	
@@ -278,12 +260,19 @@ local script = G2L["6"];
 		end
 	end)
 	
-	player.CharacterAdded:Connect(function(char)
-		task.wait(0.5)
+	local function onCharacter(char)
 		if isTweening then
+			task.wait(0.5)
 			runTweenSequence(char)
 		end
-	end)
+	end
+	
+	player.CharacterAdded:Connect(onCharacter)
+	
+	if player.Character then
+		task.wait(0.5)
+		onCharacter(player.Character)
+	end
 	
 end;
 task.spawn(C_6);
