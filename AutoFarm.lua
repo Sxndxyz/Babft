@@ -70,6 +70,7 @@ G2L["9"]["BackgroundTransparency"] = 0.99;
 G2L["9"]["Size"] = UDim2.new(0, 15, 0, 15);
 G2L["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["9"]["Text"] = [[X]];
+G2L["9"]["Name"] = [[X]];
 G2L["9"]["Position"] = UDim2.new(0.9375, 0, 0, 0);
 
 G2L["a"] = Instance.new("LocalScript", G2L["9"]);
@@ -129,6 +130,7 @@ local script = G2L["3"];
 	end)
 end;
 task.spawn(C_3);
+
 local function C_5()
 local script = G2L["5"];
 	local player = game.Players.LocalPlayer
@@ -235,6 +237,7 @@ local script = G2L["5"];
 	
 end;
 task.spawn(C_5);
+
 local function C_a()
 local script = G2L["a"];
 	script.Parent.MouseButton1Click:Connect(function() 
