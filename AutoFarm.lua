@@ -140,7 +140,7 @@ local script = G2L["5"];
 	local tweenStyle = Enum.EasingStyle.Quad
 	local tweenDirection = Enum.EasingDirection.Out
 	local screenGui = player:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
-	local toggleButton = screenGui:WaitForChild("ToggleButton")
+	local toggleButton = screenGui:WaitForChild("Frame"):WaitForChild("TextButton")
 	local enabled = false
 	local activeThread
 	local preChestPos = Vector3.new(-49, 53, 8640)
