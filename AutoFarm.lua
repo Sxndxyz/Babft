@@ -164,10 +164,10 @@ local script = G2L["6"];
 	local RunService = game:GetService("RunService")
 	local player = Players.LocalPlayer
 	
-	local constantY = 65
+	local constantY = 67
 	local preChestPos = Vector3.new(-49, constantY, 8640)
 	local darknessPartName = "DarknessPart"
-	local tweenTime = 2.5
+	local tweenTime = 1.85
 	local tweenStyle = Enum.EasingStyle.Quad
 	local tweenDirection = Enum.EasingDirection.InOut
 	
