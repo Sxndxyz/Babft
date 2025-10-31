@@ -47,48 +47,50 @@ G2L["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["7"]["Text"] = [[Start]];
 G2L["7"]["Position"] = UDim2.new(-0, 0, 0, 0);
 
-G2L["8"] = Instance.new("UICorner", G2L["5"]);
-G2L["8"]["CornerRadius"] = UDim.new(0, 4);
+G2L["8"] = Instance.new("LocalScript", G2L["7"]);
 
-G2L["9"] = Instance.new("TextLabel", G2L["2"]);
-G2L["9"]["TextWrapped"] = true;
-G2L["9"]["BorderSizePixel"] = 0;
-G2L["9"]["TextSize"] = 22;
-G2L["9"]["TextScaled"] = true;
-G2L["9"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["9"]["FontFace"] = Font.new([[rbxasset://fonts/families/JosefinSans.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["9"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["9"]["BackgroundTransparency"] = 1;
-G2L["9"]["Size"] = UDim2.new(0, 208, 0, 48);
-G2L["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["9"]["Text"] = [[Babft Autofarm]];
+G2L["9"] = Instance.new("UICorner", G2L["5"]);
+G2L["9"]["CornerRadius"] = UDim.new(0, 4);
 
-G2L["a"] = Instance.new("TextButton", G2L["2"]);
+G2L["a"] = Instance.new("TextLabel", G2L["2"]);
+G2L["a"]["TextWrapped"] = true;
 G2L["a"]["BorderSizePixel"] = 0;
-G2L["a"]["TextSize"] = 14;
+G2L["a"]["TextSize"] = 22;
+G2L["a"]["TextScaled"] = true;
+G2L["a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["a"]["FontFace"] = Font.new([[rbxasset://fonts/families/JosefinSans.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
 G2L["a"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["a"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 31);
-G2L["a"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["a"]["BackgroundTransparency"] = 0.99;
-G2L["a"]["Size"] = UDim2.new(0, 15, 0, 15);
+G2L["a"]["BackgroundTransparency"] = 1;
+G2L["a"]["Size"] = UDim2.new(0, 208, 0, 48);
 G2L["a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["a"]["Text"] = [[X]];
-G2L["a"]["Name"] = [[X]];
-G2L["a"]["Position"] = UDim2.new(0.9375, 0, 0, 0);
+G2L["a"]["Text"] = [[Babft Autofarm]];
 
-G2L["b"] = Instance.new("LocalScript", G2L["a"]);
+G2L["b"] = Instance.new("TextButton", G2L["2"]);
+G2L["b"]["BorderSizePixel"] = 0;
+G2L["b"]["TextSize"] = 14;
+G2L["b"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["b"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 31);
+G2L["b"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["b"]["BackgroundTransparency"] = 0.99;
+G2L["b"]["Size"] = UDim2.new(0, 15, 0, 15);
+G2L["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["b"]["Text"] = [[X]];
+G2L["b"]["Name"] = [[X]];
+G2L["b"]["Position"] = UDim2.new(0.9375, 0, 0, 0);
 
-G2L["c"] = Instance.new("ImageLabel", G2L["2"]);
-G2L["c"]["ZIndex"] = 0;
-G2L["c"]["SliceCenter"] = Rect.new(85, 85, 427, 427);
-G2L["c"]["ScaleType"] = Enum.ScaleType.Slice;
-G2L["c"]["ImageTransparency"] = 0.4;
-G2L["c"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-G2L["c"]["Image"] = [[rbxassetid://12817467194]];
-G2L["c"]["Size"] = UDim2.new(1, 152, 1, 152);
-G2L["c"]["BackgroundTransparency"] = 1;
-G2L["c"]["Name"] = [[FrameShadow]];
-G2L["c"]["Position"] = UDim2.new(0.5, 0, 0.51149, -1);
+G2L["c"] = Instance.new("LocalScript", G2L["b"]);
+
+G2L["d"] = Instance.new("ImageLabel", G2L["2"]);
+G2L["d"]["ZIndex"] = 0;
+G2L["d"]["SliceCenter"] = Rect.new(85, 85, 427, 427);
+G2L["d"]["ScaleType"] = Enum.ScaleType.Slice;
+G2L["d"]["ImageTransparency"] = 0.4;
+G2L["d"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["d"]["Image"] = [[rbxassetid://12817467194]];
+G2L["d"]["Size"] = UDim2.new(1, 152, 1, 152);
+G2L["d"]["BackgroundTransparency"] = 1;
+G2L["d"]["Name"] = [[FrameShadow]];
+G2L["d"]["Position"] = UDim2.new(0.5, 0, 0.51149, -1);
 
 local function C_3()
 local script = G2L["3"];
@@ -159,25 +161,21 @@ local function C_6()
 local script = G2L["6"];
 	local Players = game:GetService("Players")
 	local TweenService = game:GetService("TweenService")
+	local RunService = game:GetService("RunService")
 	local player = Players.LocalPlayer
 	
 	local constantY = 65
 	local preChestPos = Vector3.new(-49, constantY, 8640)
 	local darknessPartName = "DarknessPart"
-	local tweenTime = 1.65
+	local tweenTime = 2.5
 	local tweenStyle = Enum.EasingStyle.Quad
 	local tweenDirection = Enum.EasingDirection.InOut
 	
-	local screenGui = player:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
-	local toggleButton = screenGui:WaitForChild("Frame"):WaitForChild("TextButton")
-	
-	local enabled = false
-	local activeThread = nil
+	local toggleButton = script.Parent
+	local isTweening = false
 	
 	local function findBoatStages()
-		if workspace:FindFirstChild("BoatStages") then
-			return workspace:FindFirstChild("BoatStages")
-		end
+		if workspace:FindFirstChild("BoatStages") then return workspace.BoatStages end
 		for _, v in pairs(workspace:GetChildren()) do
 			if v:IsA("Folder") and v.Name:lower():find("boat") then
 				return v
@@ -190,11 +188,8 @@ local script = G2L["6"];
 	local stagesFolder = boatRoot and (boatRoot:FindFirstChild("NormalStages") or boatRoot:FindFirstChildWhichIsA("Folder") or boatRoot) or nil
 	
 	local function findTheEnd()
-		if stagesFolder and stagesFolder:FindFirstChild("TheEnd") then
-			return stagesFolder.TheEnd
-		elseif boatRoot and boatRoot:FindFirstChild("TheEnd") then
-			return boatRoot.TheEnd
-		end
+		if stagesFolder and stagesFolder:FindFirstChild("TheEnd") then return stagesFolder.TheEnd
+		elseif boatRoot and boatRoot:FindFirstChild("TheEnd") then return boatRoot.TheEnd end
 		return nil
 	end
 	
@@ -205,16 +200,6 @@ local script = G2L["6"];
 		if finalChest and finalChest:IsA("Model") and not finalChest.PrimaryPart then
 			finalChest.PrimaryPart = finalChest:FindFirstChildWhichIsA("BasePart")
 		end
-	end
-	
-	local function safeTweenTo(root, targetCFrame)
-		if not (root and root.Parent) then return end
-		pcall(function()
-			local tweenInfo = TweenInfo.new(tweenTime, tweenStyle, tweenDirection)
-			local tween = TweenService:Create(root, tweenInfo, {CFrame = targetCFrame})
-			tween:Play()
-			tween.Completed:Wait()
-		end)
 	end
 	
 	local function extractStageNumber(name)
@@ -236,80 +221,95 @@ local script = G2L["6"];
 		return list
 	end
 	
+	local function safeTweenToDummy(root, targetCFrame)
+		local dummy = Instance.new("Part")
+		dummy.Size = Vector3.new(1,1,1)
+		dummy.Transparency = 1
+		dummy.Anchored = true
+		dummy.CanCollide = false
+		dummy.CFrame = root.CFrame
+		dummy.Parent = workspace
+	
+		local tweenInfo = TweenInfo.new(tweenTime, tweenStyle, tweenDirection)
+		local tween = TweenService:Create(dummy, tweenInfo, {CFrame = targetCFrame})
+		tween:Play()
+	
+		local conn
+		conn = RunService.Heartbeat:Connect(function()
+			if root.Parent then
+				root.CFrame = dummy.CFrame
+			else
+				conn:Disconnect()
+				dummy:Destroy()
+			end
+		end)
+	
+		tween.Completed:Wait()
+		conn:Disconnect()
+		dummy:Destroy()
+	end
+	
 	local function runTweenSequence(character)
 		repeat task.wait() until character and character.Parent and character:FindFirstChild("HumanoidRootPart")
 		local root = character:FindFirstChild("HumanoidRootPart")
-		if not (root and root:IsA("BasePart")) then return end
+		if not root then return end
 	
-		for _, stage in ipairs(getStageList()) do
-			if not enabled then return end
-			local darkPart = stage:FindFirstChild(darknessPartName, true)
-			if darkPart and darkPart:IsA("BasePart") then
-				local pos = Vector3.new(darkPart.Position.X, constantY, darkPart.Position.Z)
-				safeTweenTo(root, CFrame.new(pos))
-			end
-		end
-	
-		if not enabled then return end
-		safeTweenTo(root, CFrame.new(preChestPos))
-	
-		if not enabled then return end
-		if finalChest then
-			local chestCFrame
-			if finalChest:IsA("BasePart") then
-				chestCFrame = finalChest.CFrame
-			elseif finalChest:IsA("Model") and finalChest.PrimaryPart then
-				chestCFrame = finalChest.PrimaryPart.CFrame
-			end
-			if chestCFrame then
-				safeTweenTo(root, chestCFrame + Vector3.new(0, 5, 0))
-			end
-		end
-	end
-	
-	local function handleCharacter(character)
-		if activeThread then task.cancel(activeThread) end
-		activeThread = task.spawn(function()
-			while enabled and character and character.Parent do
-				runTweenSequence(character)
-				local humanoid = character:FindFirstChild("Humanoid")
-				if humanoid then
-					humanoid.Died:Wait()
-				else
-					break
+		while isTweening and root.Parent do
+			for _, stage in ipairs(getStageList()) do
+				if not isTweening then return end
+				local darkPart = stage:FindFirstChild(darknessPartName, true)
+				if darkPart then
+					local pos = Vector3.new(darkPart.Position.X, constantY, darkPart.Position.Z)
+					safeTweenToDummy(root, CFrame.new(pos))
 				end
-				task.wait(1)
 			end
-		end)
+			if not isTweening then return end
+			safeTweenToDummy(root, CFrame.new(preChestPos))
+			if finalChest and finalChest.PrimaryPart and isTweening then
+				safeTweenToDummy(root, finalChest.PrimaryPart.CFrame + Vector3.new(0,5,0))
+			end
+		end
 	end
+	
+	toggleButton.MouseButton1Click:Connect(function()
+		isTweening = not isTweening
+		if isTweening and player.Character then
+			task.spawn(runTweenSequence, player.Character)
+		end
+	end)
 	
 	player.CharacterAdded:Connect(function(char)
 		task.wait(0.5)
-		if enabled then handleCharacter(char) end
-	end)
-	
-	toggleButton.MouseButton1Click:Connect(function()
-		enabled = not enabled
-		toggleButton.TextLabel.Text = enabled and "Stop" or "Start"
-		if enabled and player.Character then
-			handleCharacter(player.Character)
+		if isTweening then
+			runTweenSequence(char)
 		end
 	end)
 	
-	toggleButton.TextLabel.Text = "Start"
-	if enabled and player.Character then
-		handleCharacter(player.Character)
-		toggleButton.TextLabel.Text = "Stop"
-	end
-	
 end;
 task.spawn(C_6);
-local function C_b()
-local script = G2L["b"];
+local function C_8()
+local script = G2L["8"];
+	local b = script.Parent.Parent
+	local tl = script.Parent
+	local enabled = false
+	
+	b.MouseButton1Click:Connect(function()
+		enabled = not enabled
+		if enabled then
+			tl.Text = "Stop"
+		else
+			tl.Text = "Start"
+		end
+		
+	end)
+end;
+task.spawn(C_8);
+local function C_c()
+local script = G2L["c"];
 	script.Parent.MouseButton1Click:Connect(function() 
 		script.Parent.Parent.Parent:Destroy()
 	end)
 end;
-task.spawn(C_b);
+task.spawn(C_c);
 
 return G2L["1"], require;
