@@ -10,7 +10,7 @@ G2L["2"] = Instance.new("Frame", G2L["1"]);
 G2L["2"]["BorderSizePixel"] = 0;
 G2L["2"]["BackgroundColor3"] = Color3.fromRGB(75, 75, 75);
 G2L["2"]["Size"] = UDim2.new(0, 208, 0, 87);
-G2L["2"]["Position"] = UDim2.new(0.00777, 0, 0.29508, 0);
+G2L["2"]["Position"] = UDim2.new(0.39903, 0, 0.40984, 0);
 G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 
 G2L["3"] = Instance.new("LocalScript", G2L["2"]);
@@ -60,32 +60,31 @@ G2L["8"]["Size"] = UDim2.new(0, 208, 0, 48);
 G2L["8"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["8"]["Text"] = [[Babft Autofarm]];
 
-G2L["9"] = Instance.new("ImageLabel", G2L["2"]);
-G2L["9"]["ZIndex"] = 0;
-G2L["9"]["SliceCenter"] = Rect.new(85, 85, 427, 427);
-G2L["9"]["ScaleType"] = Enum.ScaleType.Slice;
-G2L["9"]["ImageTransparency"] = 0.4;
+G2L["9"] = Instance.new("TextButton", G2L["2"]);
+G2L["9"]["BorderSizePixel"] = 0;
+G2L["9"]["TextSize"] = 14;
+G2L["9"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["9"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 31);
+G2L["9"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["9"]["BackgroundTransparency"] = 0.99;
+G2L["9"]["Size"] = UDim2.new(0, 15, 0, 15);
+G2L["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["9"]["Text"] = [[X]];
+G2L["9"]["Position"] = UDim2.new(0.9375, 0, 0, 0);
 
-G2L["9"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-G2L["9"]["Image"] = [[rbxassetid://12817467194]];
-G2L["9"]["Size"] = UDim2.new(1, 152, 1, 152);
-G2L["9"]["BackgroundTransparency"] = 1;
-G2L["9"]["Name"] = [[FrameShadow]];
-G2L["9"]["Position"] = UDim2.new(0.5, 0, 0.5, -1);
+G2L["a"] = Instance.new("LocalScript", G2L["9"]);
 
-G2L["a"] = Instance.new("TextButton", G2L["2"]);
-G2L["a"]["BorderSizePixel"] = 0;
-G2L["a"]["TextSize"] = 14;
-G2L["a"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["a"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 31);
-G2L["a"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["a"]["BackgroundTransparency"] = 0.99;
-G2L["a"]["Size"] = UDim2.new(0, 15, 0, 15);
-G2L["a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["a"]["Text"] = [[X]];
-G2L["a"]["Position"] = UDim2.new(0.9375, 0, 0, 0);
-
-G2L["b"] = Instance.new("LocalScript", G2L["a"]);
+G2L["b"] = Instance.new("ImageLabel", G2L["2"]);
+G2L["b"]["ZIndex"] = 0;
+G2L["b"]["SliceCenter"] = Rect.new(85, 85, 427, 427);
+G2L["b"]["ScaleType"] = Enum.ScaleType.Slice;
+G2L["b"]["ImageTransparency"] = 0.4;
+G2L["b"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["b"]["Image"] = [[rbxassetid://12817467194]];
+G2L["b"]["Size"] = UDim2.new(1, 152, 1, 152);
+G2L["b"]["BackgroundTransparency"] = 1;
+G2L["b"]["Name"] = [[FrameShadow]];
+G2L["b"]["Position"] = UDim2.new(0.5, 0, 0.5, -1);
 
 local function C_3()
 local script = G2L["3"];
@@ -130,7 +129,6 @@ local script = G2L["3"];
 	end)
 end;
 task.spawn(C_3);
-
 local function C_5()
 local script = G2L["5"];
 	local player = game.Players.LocalPlayer
@@ -138,13 +136,14 @@ local script = G2L["5"];
 	local stagesFolder = workspace:WaitForChild("BoatStages"):WaitForChild("NormalStages")
 	local darknessPartName = "DarknessPart"
 	local finalChestPath = stagesFolder.TheEnd:WaitForChild("GoldenChest")
-	local tweenTime = 1.3
+	local tweenTime = 2.5
 	local tweenStyle = Enum.EasingStyle.Quad
 	local tweenDirection = Enum.EasingDirection.Out
 	local screenGui = player:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
-	local toggleButton = screenGui:WaitForChild("Frame"):WaitForChild("TextButton")
+	local toggleButton = screenGui:WaitForChild("ToggleButton")
 	local enabled = false
 	local activeThread
+	local preChestPos = Vector3.new(-49, 53, 8640)
 	
 	local function extractStageNumber(name)
 		return tonumber(string.match(name, "%d+")) or math.huge
@@ -152,7 +151,9 @@ local script = G2L["5"];
 	
 	local function tweenTo(target, root)
 		local targetCFrame
-		if target:IsA("Model") then
+		if typeof(target) == "Vector3" then
+			targetCFrame = CFrame.new(target)
+		elseif target:IsA("Model") then
 			if not target.PrimaryPart then
 				target.PrimaryPart = target:FindFirstChildWhichIsA("BasePart")
 			end
@@ -194,9 +195,10 @@ local script = G2L["5"];
 				tweenTo(darkPart, root)
 			end
 		end
-		if enabled then
-			tweenTo(finalChestPath, root)
-		end
+		if not enabled then return end
+		tweenTo(preChestPos, root)
+		if not enabled then return end
+		tweenTo(finalChestPath, root)
 	end
 	
 	local function handleCharacter(character)
@@ -233,13 +235,12 @@ local script = G2L["5"];
 	
 end;
 task.spawn(C_5);
-
-local function C_b()
-local script = G2L["b"];
+local function C_a()
+local script = G2L["a"];
 	script.Parent.MouseButton1Click:Connect(function() 
 		script.Parent.Parent.Parent:Destroy()
 	end)
 end;
-task.spawn(C_b);
+task.spawn(C_a);
 
 return G2L["1"], require;
